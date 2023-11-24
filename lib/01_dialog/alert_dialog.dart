@@ -8,31 +8,58 @@ class AlertDialogScreen extends StatefulWidget {
 }
 
 class _AlertDialogScreenState extends State<AlertDialogScreen> {
+  TextEditingController controller = TextEditingController();
+  List box = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         centerTitle: true,
-        title: const Text('Dialog widget'),
+        title: TextField(
+          controller: controller,
+          decoration: const InputDecoration(border: OutlineInputBorder()),
+        ),
       ),
-      body: Center(
-        child: ElevatedButton(
-            onPressed: () {
+      body: ListView.builder(
+        itemCount: box.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            onTap: () {
               showDialog(
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: Text('Dialog'),
-                      icon: Icon(Icons.warning_amber, size: 40),
+                      title: const Text('Delete'),
                       actions: [
-                        TextButton(onPressed: () {}, child: Text('No')),
-                        TextButton(onPressed: () {}, child: Text('Yes')),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            child: Text('No')),
+                        TextButton(
+                            onPressed: () {
+                              setState(() {
+                                box.removeAt(index);
+                                Navigator.pop(context);
+                              });
+                            },
+                            child: Text('Yes')),
                       ],
                     );
                   });
             },
-            child: const Text('Open Dialog')),
+            title: Text(box[index]),
+          );
+        },
       ),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        setState(() {
+          box.add(controller.text);
+          controller.text = '';
+        });
+        print(box);
+      }),
     );
   }
 }
