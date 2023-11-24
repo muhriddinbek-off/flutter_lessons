@@ -16,7 +16,22 @@ class _AlertDialogScreenState extends State<AlertDialogScreen> {
         title: const Text('Dialog widget'),
       ),
       body: Center(
-        child: ElevatedButton(onPressed: () {}, child: const Text('Open Dialog')),
+        child: ElevatedButton(
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text('Dialog'),
+                      icon: Icon(Icons.warning_amber, size: 40),
+                      actions: [
+                        TextButton(onPressed: () {}, child: Text('No')),
+                        TextButton(onPressed: () {}, child: Text('Yes')),
+                      ],
+                    );
+                  });
+            },
+            child: const Text('Open Dialog')),
       ),
     );
   }
